@@ -1,0 +1,239 @@
+Index: gpaste-3.14.4.1/src/libgpaste.mk
+===================================================================
+--- gpaste-3.14.4.1.orig/src/libgpaste.mk
++++ gpaste-3.14.4.1/src/libgpaste.mk
+@@ -172,6 +172,7 @@ lib_libgpaste_la_CFLAGS = \
+ 	$(UNITY_CFLAGS) \
+ 	$(X11_CFLAGS) \
+ 	$(AM_CFLAGS) \
++	`pkg-config --cflags zeitgeist-1.0`	\
+ 	$(NULL)
+ 
+ lib_libgpaste_la_LIBADD = \
+@@ -188,6 +189,7 @@ libgpaste_symbols_file = $(srcdir)/src/l
+ lib_libgpaste_la_LDFLAGS = \
+ 	-version-info $(LIBGPASTE_CURRENT):$(LIBGPASTE_REVISION):$(LIBGPASTE_AGE) \
+ 	-Wl,--version-script=$(libgpaste_symbols_file) \
++	`pkg-config --libs zeitgeist-1.0`	\
+ 	$(NULL)
+ 
+ lib_libgpaste_la_DEPENDENCIES = \
+Index: gpaste-3.14.4.1/src/libgpaste/core/gpaste-clipboard.c
+===================================================================
+--- gpaste-3.14.4.1.orig/src/libgpaste/core/gpaste-clipboard.c
++++ gpaste-3.14.4.1/src/libgpaste/core/gpaste-clipboard.c
+@@ -24,6 +24,13 @@
+ #include <gpaste-uris-item.h>
+ 
+ #include <string.h>
++#include <zeitgeist.h>
++#include <linux/limits.h>
++#define ZEITGEIST_ZG_CLIPBOARD_COPY_EVENT "http://www.zeitgeist-project.com/ontologies/2010/01/27/zg#ClipboardCopy"
++
++#ifdef GDK_WINDOWING_X11
++#include <gdk/gdkx.h>
++#endif
+ 
+ struct _GPasteClipboardPrivate
+ {
+@@ -531,12 +538,200 @@ g_paste_clipboard_select_item (GPasteCli
+     }
+ }
+ 
++static gchar *
++_get_actor_name_from_pid (pid_t pid)
++{
++    char         *link_file     = NULL;
++    char         *link_target   = NULL;
++    char        **split_target  = NULL;
++    char         *actor_name    = NULL;
++    ssize_t       read_len      = PATH_MAX; // 4096, so it's unlikely link_len ever overflows :)
++    ssize_t       link_len      = 1;
++
++    if (pid <= 0)
++    {
++        return NULL;
++    }
++
++    link_file = g_strdup_printf ("/proc/%d/exe", pid);
++    if (link_file == NULL)
++    {
++        return NULL;
++    }
++
++    // It is impossible to obtain the size of /proc link targets as /proc is
++    // not POSIX compliant. Hence, we start from the NAME_MAX limit and increase
++    // it all the way up to readlink failing. readlink will fail upon reaching
++    // the PATH_MAX limit on Linux implementations. read_len will be strictly
++    // inferior to link_len as soon as the latter is big enough to contain the
++    // path to the executable and a trailing null character.
++    while (read_len >= link_len)
++    {
++        link_len += NAME_MAX;
++
++        g_free(link_target);
++        link_target = g_malloc(link_len * sizeof (char));
++
++        if (link_target == NULL)
++        {
++            g_free (link_file);
++            g_free (link_target);
++            return NULL;
++        }
++
++        read_len= readlink (link_file, link_target, link_len);
++
++        if (read_len < 0)
++        {
++            g_free (link_file);
++            g_free (link_target);
++            return NULL;
++        }
++    }
++
++    g_free (link_file);
++
++    // readlink does not null-terminate the string
++    link_target[read_len] = '\0';
++
++    split_target = g_strsplit (link_target, "/", -1);
++    g_free (link_target);
++
++    if(split_target == NULL)
++    {
++        return NULL;
++    }
++
++    // Iterate to the last element which is the executable name
++    for (read_len = 0; split_target[read_len]; read_len++);
++
++    // Turn it into an arbitrary actor name
++    actor_name = g_strdup_printf ("application://%s.desktop", split_target[--read_len]);
++    g_strfreev (split_target);
++
++    return actor_name;
++}
++
++/* Inspired by xdotool.
++Copyright (c) 2007, 2008, 2009: Jordan Sissel.
++Copyright (c) 2015: Steve Dodier-Lazaro <sidnioulz@gmail.com>
++All rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions are met:
++    * Redistributions of source code must retain the above copyright
++      notice, this list of conditions and the following disclaimer.
++    * Redistributions in binary form must reproduce the above copyright
++      notice, this list of conditions and the following disclaimer in the
++      documentation and/or other materials provided with the distribution.
++    * Neither the name of Jordan Sissel nor the names of its contributors
++      may be used to endorse or promote products derived from this software
++      without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY JORDAN SISSEL ``AS IS'' AND ANY
++EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
++WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
++DISCLAIMED. IN NO EVENT SHALL JORDAN SISSEL BE LIABLE FOR ANY
++DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
++(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
++LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
++ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++static pid_t
++_get_pid_from_xid (Display *xdsp,
++                   Window   window)
++{
++    static Atom pid_atom = -1;
++    if (pid_atom == (Atom)-1)
++        pid_atom = XInternAtom(xdsp, "_NET_WM_PID", False);
++
++    Atom actual_type;
++    int actual_format;
++    unsigned long _nitems;
++    unsigned long _bytes_after;
++    unsigned char *prop;
++    int status;
++
++    status = XGetWindowProperty(xdsp, window, pid_atom, 0, (~0L),
++        False, AnyPropertyType, &actual_type, &actual_format,
++        &_nitems, &_bytes_after, &prop);
++
++    if (status != Success || !prop)
++        return 0;
++    else
++        return prop[1]*256 + prop[0];
++}
++
++static void
++_log_zeitgeist_copy_event (GdkEventOwnerChange *gdkevent,
++                           GPasteClipboard     *self G_GNUC_UNUSED)
++{
++    // Get access to Zeitgeist logger daemon
++    ZeitgeistLog *log = zeitgeist_log_get_default ();
++
++    // Calculate information about the client
++    GdkDisplay *dsp = gdk_display_get_default ();
++    gchar *actor_name, *window_id;
++    pid_t pid = 0;
++
++    #ifdef GDK_WINDOWING_X11
++    if (GDK_IS_X11_DISPLAY (dsp) && gdkevent->owner)
++    {
++        Display *xdsp = gdk_x11_display_get_xdisplay (dsp);
++        Window xid = (Window) gdk_x11_window_get_xid (gdkevent->owner);
++
++        pid = _get_pid_from_xid (xdsp, xid);
++        window_id = g_strdup_printf ("%lu", xid);
++        actor_name = _get_actor_name_from_pid (pid);
++    }
++    else
++    #endif
++    {
++        window_id = g_strdup ("n/a");
++        actor_name = g_strdup ("application://unknown.desktop");
++    }
++
++    // Create the event to be added, with the known information
++    ZeitgeistEvent *event = zeitgeist_event_new_full (
++        ZEITGEIST_ZG_CLIPBOARD_COPY_EVENT,
++        ZEITGEIST_ZG_USER_ACTIVITY,
++        actor_name,
++        NULL);
++    g_free (actor_name);
++
++    // Add the UCL metadata
++    char *study_uri = g_strdup_printf ("activity://null///pid://%d///winid://%s///", pid, window_id);
++    ZeitgeistSubject *subject = zeitgeist_subject_new_full (study_uri,
++        ZEITGEIST_NFO_SOFTWARE,
++        ZEITGEIST_ZG_WORLD_ACTIVITY,
++        "application/octet-stream",
++        NULL,
++        "ucl-study-metadata",
++        NULL);
++    zeitgeist_event_add_subject (event, subject);
++    g_free (window_id);
++    g_free (study_uri);
++
++    // Send the event
++    zeitgeist_log_insert_events_no_reply (log, event, NULL);
++        
++}
++
+ static void
+ g_paste_clipboard_owner_change (GtkClipboard        *clipboard G_GNUC_UNUSED,
+                                 GdkEventOwnerChange *event,
+                                 gpointer             user_data)
+ {
+     GPasteClipboard *self = user_data;
++    GPasteClipboardPrivate *priv = g_paste_clipboard_get_instance_private (self);
++
++    // Study data logging
++    if (priv->target == gdk_atom_intern ("CLIPBOARD", TRUE) && event->reason == GDK_OWNER_CHANGE_NEW_OWNER)
++    {
++        _log_zeitgeist_copy_event (event, self);
++    }
+ 
+     g_signal_emit (self,
+ 		   signals[OWNER_CHANGE],

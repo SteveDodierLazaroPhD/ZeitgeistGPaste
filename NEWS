@@ -1,0 +1,499 @@
+NEW in 3.14.4.1 (11/05/2015)
+=============
+
+- gpaste; fix error in pipe detection
+
+NEW in 3.14.4 (11/05/2015)
+=============
+
+- gpaste; allow taking password from stdin
+
+NEW in 3.14.3 (21/03/2015)
+=============
+
+- fix crashes related to images support
+
+NEW in 3.14.2 (07/03/2015)
+=============
+
+- improve zsh completion
+- fix a bug causing the gnome-shell extension to randomly crash
+
+NEW in 3.14.1 (17/01/2015)
+=============
+
+- search is now always done by the daemon, not the gnome-shell extension
+- new gpaste subcomand: search
+- gpaste now accepts --online --raw and --zero options
+- search is now async
+- various gnome-shell extension fixes
+- updated completions
+- we now restore the clipboard contents when unlocking the screensaver
+
+NEW in 3.14 (10/10/2014)
+=============
+
+- update for latest gobject-introspection
+- support gnome-shell 3.14
+- start redesign of the gnome-shell extension
+- new gpaste show-history command
+
+NEW in 3.12.3.1 and 3.10.4.1 (09/10/2014)
+=============
+
+- a bug preventing the history to be saved to disk has been fixed
+- prevent a segfault when loading large histories
+- add a new gpaste oneline-history command
+
+NEW in 3.12.3 and 3.10.4 (25/09/2014)
+=============
+
+- gpaste-daemon now has an Update dbus signal more precise than Changed
+- desktop files fixes
+- all calls to clipboard are now async
+- performance improvements
+- gpaste-client has been updated to match gpaste-daemon changes with an update signal
+- gnome-shell extension has been ported to the update signal
+- applets have been ported to the update signal
+- gnome-shell search bar now matches the user theme
+
+NEW in 3.12.2 and 3.10.3 (28/07/2014)
+=============
+
+- gpasted has been renamed gpaste-daemon
+- Desktop files have been fixed
+- Fixes for the ubuntu app-indicator
+- Keybinding to mark an item as being a password
+- All libgpaste-* have been merged into a single libgpaste
+- Misc bugfixes reported for debian packaging
+
+NEW in 3.12.1 and 3.10.2 (16/07/2014)
+=============
+
+- systemd support has been removed
+- GPaste is now compliant with https://wiki.gnome.org/HowDoI/DBusApplicationLaunching
+- GPaste now has built-in support for managing passwords, blog post coming.
+- Completions and man pages have been updated
+- Translations have been updated
+- Miscellaneous bugfixes with static analysis
+- The search feature of the gnome-shell extension has been improved
+
+NEW in 3.12 (02/05/2014)
+=============
+
+- Improved compatibility with GNOME 3.12
+
+NEW in 3.10.1 (01/05/2014)
+=============
+
+- gpasted no longer fails at runtime if gnome-shell's settings schema is not installed
+- growing lines are detected for lines getting expanded at their left too
+- gnome-shell extension has been rewritten
+- gnome-shell extension now has a search bar
+- translations update
+- misc bugfixes
+
+NEW in 3.10 (25/03/2014)
+=============
+
+- Follow GNOME versionning
+- Don't display error on daemon-reexec
+- Fix coredumps due to g_error
+- New library: libgpaste-applet
+- Unity support (for Ubuntu 14.04 and above) using libgpaste-applet
+- Port legacy applet to libgpaste-applet and rename to StatusIcon
+- Redesign GPaste StatusIcon to make it simpler and similar to gnome-shell extension
+- Vala is no longer required to build the applet (rewritten in C)
+- Lower automake dependency to 1.11
+- Be compatible with gnome-shell up to 3.12
+- libgpaste-settings: add reset
+- gpaste settings: add reset buttons
+- gpaste settings: add a switch to enable the gnome-shell extension
+- The gnome-shell gsettings schema is now required when --enable-gnome-shell-extension is provided (default)
+- gpasted: GetElement now returns the display string
+- gpasted now forwards the full history via dbus, letting the client manage the display limit
+- gpasted gained GetHistoryLength, GetRawHistory, GetRawElement and About
+- gpasted gained a new Version property
+- Add about dialog to all components
+- Prefer dark theme
+- Display more info at the end of configure
+- Provide appdata files
+- Parallel build fixes
+- Fix build issues for Fedora, Ubuntu and Debian
+- clang related fixes
+- Fix warnings
+- Translations update
+
+NEW in 3.8 (10/02/2014)
+=============
+
+- Fix german translation
+- No longer depend on libxml
+- Update Portugueuse and French translations
+- New growing-lines feature
+- Misc bufixes
+
+NEW in 3.7 (09/11/2013)
+=============
+
+- "Paste and Pop" is now only "Pop"
+- Fix SEGV when deleting last item of history
+- New gnome-shell DBus client library
+- DBus client libraries are now async
+- Keybinder now uses gnome-shell if available to grab keys
+- Preparations for wayland port
+- Enhance internal memory management
+- Code cleanup
+- Misc bug fixes
+- German translation
+
+NEW in 3.6 (17/10/2013)
+=============
+
+- GPaste settings look has been updated to better fit with recent GNOME
+- Performance improvements
+- Daemon now fully evenmential (no more polling, less power consuption)
+- GPasteClipboard now has a "owner-change" signal similar to GtkClipboard's one
+- Misc. bugfixes
+- New setting to set the maximum amount of memory used by data in history
+- FIFO mode has been dropped (lacking design)
+- Code cleanup and modernisation
+- g_paste_history_add is now transfer full
+
+NEW in 3.5 (25/09/2013)
+=============
+
+- Compatibility with gnome-shell 3.9.90 and above
+- The gnome-shell applet has totally been rewritten
+  and is now more intuitive.
+- Port to newer glib
+- Don't use deprecated stuff from gtk+
+- The X11 keybinder is now optional
+- New keybinding to sync the clipboard to the primary selection
+- New keybinding to sync the primary selection to the clipboard
+
+NEW in 3.3.1 (22/03/2014)
+=============
+
+- Build fixes for debian wheezy
+
+NEW in 3.3 (22/02/2014)
+=============
+
+- New growing-lines feature (backported from 3.8)
+
+NEW in 3.2.2 (22/10/2013)
+=============
+
+- "Paste and Pop" is now only "Pop"
+- Fix SEGV at startup
+- Fix SEGV when deleting last item of history
+
+NEW in 3.2.1 (19/10/2013)
+=============
+
+- Update translations
+- Fix build with old glib
+
+NEW in 3.2 (16/10/2013)
+=============
+
+- Performance improvements
+- Daemon now fully evenmential (no more polling, less power consuption)
+- GPasteClipboard now has a "owner-change" signal similar to GtkClipboard's one
+- Misc. bugfixes
+- New setting to set the maximum amount of memory used by data in history
+- FIFO mode has been dropped (lacking design)
+- g_paste_history_add is now transfer full
+
+NEW in 3.1 (23/09/2013)
+=============
+
+- Compatibility with gnome-shell up to 3.9.5
+- New keybinding to sync the clipboard to the primary selection
+- New keybinding to sync the primary selection to the clipboard
+
+NEW in 3.0.2 (01/06/2013)
+=============
+
+- Fix build without gnome-control-center installed
+- Fix focus when using <Ctrl><Alt><H> in gnome-shel extension
+
+NEW in 3.0.1 (13/04/2013)
+=============
+
+- Fix build
+
+NEW in 3.0 (13/04/2013)
+=============
+
+- Various build fixes
+- Support of gnome-control-center for setting keybindings
+- Compatibility with newer gnome-shell
+
+NEW in 2.99.2 (22/01/2013)
+=============
+
+- Fix a bug making gpaste settings ui a no-op
+- Don't close legacy applet menu when deleting an item
+- Fix vala bindings
+- Updated portuguese translation
+
+NEW in 2.99.1 (15/01/2013)
+=============
+
+- Fix a few typos in the conditional code for applet and extension
+- Fix make install when GPaste is not yet installed
+- Clean desktop files
+
+NEW in 2.99 (14/01/2013)
+=============
+
+- Compatibility with recent development releases of gnome-shell
+- "gpaste f" now defers the file reading to the GPaste daemon
+- libgpaste-client does now fully cover the GPaste DBus API
+- libgpaste-keybinder has been ported to use XInput2
+- keybindings have been fixed
+- The gnome-shell extension has been ported to use libgpaste-client
+- A systemd user unit is now provided
+- New library: libgpaste-settings-ui
+- gpaste-settings has been ported to libgpaste-settings-ui
+- The gnome-shell extension now has a pref.js module based on libgpaste-settings-ui
+- An autostart desktop file is now provided with the legacy applet
+- gobject-introspection and vala support are now optional
+- Various code cleanup
+
+NEW in 2.9.1 (01/12/2012)
+=============
+
+- Fix memory leak when handling images
+- Fix duplicated images in history
+- Fix "changed" signal in GPasteSettings
+
+NEW in 2.9 (29/09/2012)
+=============
+
+- Now depends on intltool 0.50
+- Automake stack is even more modular
+- libgpaste has been split into sublibs: libgpaste-core, libgpaste-keybinder and libgpaste-settings
+- New libraries: libgpaste-client and libgpaste-daemon
+- gpaste CLI is rewritten in C
+- Keybindings have totally been reworked
+- Performance improvements
+- Various code cleanup
+- Images support can now be disabled
+- Paste and Pop keybinding may behave weirdly because of gtk+
+
+NEW in 2.8.1 (05/05/2012)
+=============
+
+- Fix crash in g_paste_daemon_tracking
+
+NEW in 2.8 (02/05/2012)
+=============
+
+- Various cleanup and bugfixes
+- The history file now has a version number
+- CDATA can now be copied
+- ToggleHistory is now ShowHistory
+- The "keyboard-shortcut" preferences is now called "show-history"
+- New feature : Paste & Pop with a new keybinding (experimental)
+- Vapi is no longer shipped and is generated when building
+- Now requires automake 1.12 and autoconf 2.69
+- Brazilian Portuguese translation by Elder Marco
+- FIFO mode
+- Multi-history with "gpaste backup-history" and "gpaste switch-history"
+- New commands: "gpaste delete-history" and "gpaste list-histories"
+- gpaste-settings has been rewritten
+- libgpaste improvements
+
+NEW in 2.5 (08/03/2012)
+=============
+
+- Reexecute has now a signal: ReexecuteSelf
+- New library to externalize the core: libgpaste written in C with introspection and vapi
+- Various build system cleanup
+- Small bug fixes
+- Port gpasted to libgpaste and rewrite it in C
+- Port gpaste-settings to libgpaste
+- Port gpaste-applet to libgpaste
+
+NEW in 2.2.1 (07/01/2012)
+=============
+
+- Regen tarball with intltool 0.41.1
+
+NEW in 2.2 (07/01/2012)
+=============
+
+- Content is now stripped before being added to clipboard
+- New settings for maximum and minimum size of an item (thanks to Lukáš Zapletal)
+- Various code cleanup
+- Fix keybinding handling (conflict with mutter in keyboard grabbing)
+- Ability to stop tracking changes when disabling extension
+- Rewrite of gpaste-settings
+
+NEW in 2.1 (01/12/2011)
+=============
+
+- Fix a bug which was "randomly" deleting image files
+- Generate tarball with sane vala to unbreak keybindings
+
+NEW in 2.0 (27/11/2011)
+=============
+
+- Updated finnish translation
+- Cleanups
+- Fix separators disapearing in gnome-shell extension
+- Don't close menu when deleting items
+- Uris support (files copying)
+- Rewrite of bash and zsh completions
+- Various fixes
+
+NEW in 1.99 (2.0 RC) (02/11/2011)
+=============
+
+- Finnish translation by Jesse Jaara
+- Be consistent with the shell applet menu structure
+- New gpaste subcommand: raw-history to display history without numbers
+- Switch to GDbus
+- New images support (feedback appreciated)
+
+NEW in 1.6 (20/09/2011)
+=============
+
+- Make hotkey work with legacy applet
+- New GPaste subcommand for upgrading facilities: gpaste daemon-reexec
+- Major autotools cleanup
+- Fix linkage of gpasted against X11
+- Bugfixes
+- Espagnol translation by Antonio Trujillo
+
+NEW in 1.5 (11/09/2011)
+=============
+
+- No trace of the applet at all with --disable-applet
+- No more "shutdown-on-exit" key, just use the prefs or the command line
+- Preparation for future images support
+- History file is now ~/.gpaste_history
+- Use AM_PROG_VALAC
+- New "gpaste get <number>" command for subshell usage (And GetElement DBus method)
+- Get rid of AM_MAINTAINER_MODE
+- Add possibility to have a keyboard shortcut to display the history
+- Do not add to history the last selected item when re tracking for changes
+
+NEW in 1.4 (07/09/2011)
+=============
+
+- pod2man is no more needed
+- Add ability not to save the history from one session to another
+- Fix segfault at daemon startup with invalid utf8 string
+
+NEW in 1.3.1 (03/09/2011)
+=============
+
+- Nothing
+
+NEW in 1.3 (31/08/2011)
+=============
+
+- New gpaste option: file/-f/--file <path>, same as cat <path> | gpaste
+- Adapt to new gnome-shell extension API
+
+NEW in 1.2 (10/07/2011)
+=============
+
+- Avoid AM_GLIB_GNU_GETTEXT macro
+- Don't run configure in autogen.bash
+- Really restore tracking state at startup
+
+NEW in 1.1 (09/07/2011)
+=============
+
+- Save whether we're tracking clipboard changes or not from a session to another
+- Only build gnome-shell applet by default
+- Launch and Quit DBus method are now Track(bool)
+- Start and Exit DBus signals are now Tracking(bool)
+
+NEW in 1.0 (05/07/2011)
+=============
+
+- Switch to .tar.xz
+- Various bug fixes
+- Silence some warnings
+- Get rid of the History.changed signal
+- Rework internal Settings handling
+
+NEW in 0.99 (28/02/2011)
+=============
+
+- Depend on gtk+ 3.0.0
+- Really fix the segfault taht should have been fixed in 0.9
+- Namespace refactoring
+- Libexec stuff is now installed into a gpaste subdir
+- Code cleanup
+- Explicit DBus API (with breakage)
+- Rename gpaste-{preferences -> settings}
+- New "exit" signal
+- "start" is now a signal
+- Build the gnome-shell native extension with --enable-gnome-shell-extension
+- The daemon no longer exits, it just stop tracking clipboard changes
+- New DBus property: Active to see if the daemon is tracking
+- Fix an encoding issue
+- Quit is now Stop
+
+NEW in 0.9 (05/02/2011)
+=============
+
+- Fix a segfault when trying to restore from an empty history
+into an empty clipboard at startup
+- Better output for empty history
+- gpaste version
+- gpaste applet to spawn the applet
+- gpaste-applet and gpaste-preferences are now installed into libexecdir
+- gpaste add foo is now an alias for gpaste foo (add foo to history)
+- Add gpaste preferences alias for gpaste-preferences
+- There can now only be one instance of the applet and daemon at a time
+- You can now avoid building the applet with --disable-applet
+- bash and zsh completions, manual
+
+NEW in 0.8 (03/02/2011)
+=============
+
+- Fix behaviour of '\n' substitution with small string, and
+disable it with element-size = 0
+- Change default values to adapt to new behaviours
+- Add ability to empty the history from the right clic on
+the applet or via "gpaste empty"
+- Do not display history when it is empty
+
+NEW in 0.7 (02/02/2011)
+=============
+
+- The first element in history is now restored into clipboards
+if they are empty at startup
+- You can now shutdown the daemon with "gpaste quit"
+- A preference has been added for the applet to shutdown the
+daemon when exiting
+- A preference has been added to set a maximum size for each item
+when the applet displays them
+
+NEW in 0.6 (01/02/2011)
+=============
+
+- Now, we store the settings and we connect to the change
+signal to each one of them instead of retrieving them every time
+- Fix a bug with the '_' character which was interpreted as an
+underlinement when displaying the history from the applet
+- Add ability to synchronize the primary selection and the clipboard
+
+NEW in 0.5 (01/02/2011)
+=============
+
+First release !
+Content:
+  - gpasted: daemon with DBus interface
+  - gpaste: CLI client for gpasted
+  - gpaste-preferences: tool to edit preferences
+  - gpaste-applet: tray icon for managing gpasted
+

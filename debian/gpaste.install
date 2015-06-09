@@ -1,0 +1,10 @@
+usr/bin/gpaste
+usr/lib/gpaste/gpaste/gpaste-daemon
+usr/lib/gpaste/gpaste/gpaste-settings
+usr/share/appdata/org.gnome.GPaste.Settings.appdata.xml
+usr/share/applications/org.gnome.GPaste.Settings.desktop
+usr/share/dbus-1/services/org.gnome.GPaste.service
+usr/share/dbus-1/services/org.gnome.GPaste.Settings.service
+usr/share/glib-2.0/
+usr/share/gnome-control-center/
+usr/share/man/man1/gpaste.1

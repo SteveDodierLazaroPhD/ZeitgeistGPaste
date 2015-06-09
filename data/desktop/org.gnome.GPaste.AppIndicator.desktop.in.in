@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+_Name=GPaste AppIndicator
+_Comment=Unity application indicator to manage GPaste
+_Keywords=Clipboard;Manager;
+Icon=gtk-paste
+Exec=@pkglibexecdir@/gpaste-app-indicator
+DBusActivatable=true
+Terminal=false
+Categories=GTK;GNOME;Utility;Applet;
+StartupNotify=true
+OnlyShowIn=Unity;

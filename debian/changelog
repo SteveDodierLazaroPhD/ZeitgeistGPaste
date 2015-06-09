@@ -1,0 +1,83 @@
+gpaste (3.14.4.1-1ubuntu+ppa1) vivid; urgency=medium
+
+  * Adding UCL study event on copy events
+
+ -- Steve Dodier-Lazaro <sidnioulz@gmail.com>  Tue, 09 Jun 2015 02:54:04 +0100
+
+gpaste (3.14.4.1-1ubuntu1) wily; urgency=low
+
+  * Merge from Debian unstable. LP: #1439685 Remaining changes:
+    - Change appdata-tools b-dep to appstream-util
+
+ -- Jackson Doak <noskcaj@ubuntu.com>  Tue, 02 Jun 2015 06:53:29 +1000
+
+gpaste (3.14.4.1-1) unstable; urgency=medium
+
+  * Build libgpaste2-dbg package (Closes: #773945).
+
+ -- Jérémy Lal <kapouer@melix.org>  Mon, 25 May 2015 19:59:42 +0200
+
+gpaste (3.14-2ubuntu1) vivid; urgency=medium
+
+  * Merge from debian. Remaining changes:
+    - Change appdata-tools b-dep to appstream-util
+
+ -- Jackson Doak <noskcaj@ubuntu.com>  Sun, 15 Mar 2015 05:49:18 +1100
+
+gpaste (3.14-2) unstable; urgency=medium
+
+  * Upstream patch fixing gnome-shell extension crashes.
+
+ -- Jérémy Lal <kapouer@melix.org>  Sat, 07 Mar 2015 14:44:36 +0100
+
+gpaste (3.14-1ubuntu1) vivid; urgency=medium
+
+  * Change appdata-tools b-dep to appstream-util
+
+ -- Jackson Doak <noskcaj@ubuntu.com>  Sat, 14 Feb 2015 08:33:12 +1100
+
+gpaste (3.14-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.14 (Closes: #764803).
+  * Remove/unapply all patches, applied upstream
+  * Update symbols
+
+ -- Jérémy Lal <kapouer@melix.org>  Sat, 11 Oct 2014 12:18:43 +0200
+
+gpaste (3.12.3.1-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.12.3.1
+  * Standards-Version 3.9.6
+
+ -- Jérémy Lal <kapouer@melix.org>  Thu, 09 Oct 2014 22:12:19 +0200
+
+gpaste (3.12.3-2) unstable; urgency=medium
+
+  * Provides/Conflicts with packages with soname 1.
+    (Closes: #763367, #763366, #763362)
+
+ -- Jérémy Lal <kapouer@melix.org>  Mon, 29 Sep 2014 21:55:26 +0200
+
+gpaste (3.12.3-1) unstable; urgency=medium
+
+  * Imported Upstream version 3.12.3
+  * Patches:
+    + Unapply missing_ldadd.patch, applied upstream
+    + Fix missing dash in applet man page header
+    + Extension add support for gnome-shell 3.14
+  * Package gpaste-applet (Closes: #762521)
+  * Bump soname to version 2.0, update symbols and
+    packages names.
+
+ -- Jérémy Lal <kapouer@melix.org>  Sat, 27 Sep 2014 15:39:51 +0200
+
+gpaste (3.12.2-1) unstable; urgency=medium
+
+  * Initial release (Closes: #647263)
+    Thanks to Alin Andrei <webupd8@gmail.com>,
+    Victor Seva <linuxmaniac@torreviejawireless.org>,
+    Zang MingJie <zealot0630@gmail.com>,
+    Leo Iannacone <l3on@ubuntu.com>.
+
+ -- Jérémy Lal <kapouer@melix.org>  Tue, 29 Jul 2014 14:12:23 +0200
+

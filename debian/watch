@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/gpaste-$1.tar.gz/ \
+https://github.com/Keruspe/GPaste/tags .*/archive/v?([\d\.]+).tar.gz

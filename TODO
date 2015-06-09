@@ -1,0 +1,14 @@
+3.16:
+    dbus errors instead of asserts in daemon
+    gpaste-editor
+    wayland support
+
+future:
+    general:
+        add class methods for signals
+        gpg support
+        properties all the way (when GProperty stuff lands)
+    libgpaste-client:
+        specify errors types when possible in g-i
+    tests:
+        split test, add interactive wrapper

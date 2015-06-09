@@ -1,0 +1,134 @@
+Source: gpaste
+Section: gnome
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Jérémy Lal <kapouer@melix.org>
+Build-Depends:
+ debhelper (>= 9),
+ cdbs (>= 0.4.93~),
+ dh-autoreconf,
+ appstream-util,
+ intltool,
+ pkg-config,
+ gnome-control-center-dev,
+ autotools-dev,
+ gobject-introspection (>= 1.40.0~),
+ libgirepository1.0-dev (>= 1.40.0~),
+ libgtk-3-dev,
+ libxml2-dev,
+ libxcb-keysyms1-dev,
+ libxcb-xtest0-dev,
+ libdbus-1-dev,
+ libxtst-dev,
+ libclutter-1.0-dev,
+ libzeitgeist-dev
+Standards-Version: 3.9.6
+Homepage: https://github.com/Keruspe/GPaste
+Vcs-Git: git://anonscm.debian.org/collab-maint/gpaste.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/gpaste.git
+
+Package: gpaste
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Pre-Depends: ${misc:Pre-Depends}
+Description: Clipboard management system for GNOME
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package contains the command-line tools, the D-Bus service, the
+ GNOME Control Center key bindings, and desktop/appdata files.
+
+Package: libgpaste2
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Provides: libgpaste1
+Conflicts: libgpaste1
+Description: Clipboard management system for GNOME - library
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package contains the shared library used by gpaste.
+
+Package: libgpaste2-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends},
+ libgpaste2 (= ${binary:Version}),
+ gir1.2-gpaste-2.0 (= ${binary:Version}),
+ pkg-config,
+ libglib2.0-dev (>= 2.31.2)
+Provides: libgpaste-dev
+Conflicts: libgpaste-dev
+Description: Clipboard management system for GNOME - development files
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package contains headers and libraries for developing applications
+ that use GPaste to manage the clipboard.
+
+Package: libgpaste2-dbg
+Priority: extra
+Section: debug
+Architecture: any
+Depends: ${misc:Depends},
+ libgpaste2 (= ${binary:Version})
+Description: Clipboard management system for GNOME - debugging symbols
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package provides the debugging symbols for the library.
+
+Package: gir1.2-gpaste-2.0
+Section: introspection
+Architecture: any
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ ${gir:Depends}
+Provides: gir1.2-gpaste-1.0
+Conflicts: gir1.2-gpaste-1.0
+Description: GObject introspection data for the libgpaste2 library
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package contains introspection data for the libgpaste2 library.
+ .
+ It can be used by packages using the GIRepository format to generate
+ dynamic bindings.
+
+Package: gnome-shell-extensions-gpaste
+Depends: ${misc:Depends},
+ gnome-shell (>= 3.12),
+ gpaste (>= ${source:Version}),
+ gir1.2-gpaste-2.0 (>= ${source:Version})
+Architecture: all
+Description: GPaste extension for GNOME Shell
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package provides the gnome-shell extension.
+ .
+ Please note that the extension must be manualy enabled, for example
+ using gnome-tweak-tool.
+
+Package: gpaste-applet
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ gpaste (>= ${source:Version}),
+ gir1.2-gpaste-2.0 (>= ${source:Version})
+Architecture: any
+Description: GPaste applet for GNOME
+ GPaste manages clipboard history and allows easy access to it using
+ keyboard shortcuts, gnome-shell extension, command-line tools, gir
+ bindings.
+ .
+ This package provides the GNOME applet.
+

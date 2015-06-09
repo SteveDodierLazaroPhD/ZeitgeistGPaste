@@ -1,0 +1,6 @@
+etc/xdg/autostart/org.gnome.GPaste.Applet.desktop
+usr/share/applications/org.gnome.GPaste.Applet.desktop
+usr/lib/gpaste/gpaste/gpaste-applet
+usr/share/dbus-1/services/org.gnome.GPaste.Applet.service
+usr/share/appdata/org.gnome.GPaste.Applet.appdata.xml
+usr/share/man/man1/gpaste-applet.1
