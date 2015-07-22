@@ -704,7 +704,7 @@ _log_zeitgeist_copy_event (GdkEventOwnerChange *gdkevent,
     // Add the UCL metadata
     char *study_uri = g_strdup_printf ("activity://null///pid://%d///winid://%s///", pid, window_id);
     ZeitgeistSubject *subject = zeitgeist_subject_new_full (study_uri,
-        ZEITGEIST_NFO_SOFTWARE,
+        "activity://gui-toolkit/gpaste/Clipboard/Actor",
         ZEITGEIST_ZG_WORLD_ACTIVITY,
         "application/octet-stream",
         NULL,
